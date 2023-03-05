@@ -1,0 +1,15 @@
+{%extends 'base.html'%}
+{%block title%}Home{%endblock%}
+
+{%block content%} 
+<h1>MADLIBS</h1>
+  <form method="GET" action="/prompts">
+    <label for="stories">Select a story:</label>
+    <select name="story_name">
+      {% for story in stories %}
+        <option value="{{ story.code }}">{{ story.code }}</option>
+      {% endfor %}
+    </select>
+    <input type="submit" value="Next">
+  </form>
+{%endblock%}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Prompts{% endblock %}
+
+{% block content %}
+  <h1>{{ story_name }}</h1>
+  <form action="/story" id="prompts-form">
+    {% for prompt in prompts %}
+      <p>{{ prompt }}:
+        <input name="{{ prompt }}">
+      </p>
+    {% endfor %}
+    <input type="hidden" name="story_name" value="{{ story_name}}">
+    <button>Submit</button>
+  </form>
+
+  <script>
+    function validateForm(event) {
+      event.preventDefault();  
+
+      const form = document.getElementById('prompts-form');
+      const inputs = form.querySelectorAll('input:not([type="hidden"])');
+      const values = Array.from(inputs).map(input => input.value);
+
+      const errors = [];
+      values.forEach((value, index) => {
+        if (value.length < 3) {
+          errors.push(`Answer ${index+1} must be at least 3 characters long`);
+        }
+        if (value.toLowerCase() !== value) {
+          errors.push(`Answer ${index+1} must be lowercase`);
+        }
+      });
+
+      if (errors.length > 0) {
+        alert(errors.join('\n'));
+      } else {
+        form.submit();
+      }
+    }
+
+    const form = document.getElementById('prompts-form');
+    form.addEventListener('submit', validateForm);
+  </script>
+  
+{% endblock %}
